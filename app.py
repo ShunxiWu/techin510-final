@@ -71,7 +71,7 @@ def main():
             st.write(f"**Section:** {article[4]}")
             st.write(f"**Source:** {article[5]}")
             st.write(f"**URL:** [{article[1]}]({article[0]})")
-            st.write(f"**Paragraph:** {article[6]}")
+            # st.write(f"**Paragraph:** {article[6]}")
 
             # 生成摘要
             abstract = generate_abstract(article[6])
