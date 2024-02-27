@@ -95,7 +95,7 @@ def main():
             # Generate abstract
             abstract = generate_abstract(article[6])
             # st.write(f"**Abstract:** {abstract}")
-            # time.sleep(10)
+            time.sleep(10)
             st.write('---')
 
 if __name__ == "__main__":
