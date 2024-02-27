@@ -20,7 +20,7 @@ client = OpenAI(
 print(os.getenv("OPENAI_API_KEY"))
 
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5"
+    st.session_state["openai_model"] = "gpt-4"
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
