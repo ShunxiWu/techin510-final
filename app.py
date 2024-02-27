@@ -6,16 +6,24 @@ import os
 from dotenv import load_dotenv
 import time
 
-# 加载环境变量
+# Load environment variables
+# os.environ.clear()
 load_dotenv()
 
-# 设置 OpenAI API
+
+
+# Initialize OpenAI client
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_API_BASE"),
 )
-print(os.getenv("OPENAI_API_KEY"),
-    os.getenv("OPENAI_API_BASE"))
+print(os.getenv("OPENAI_API_KEY"))
+
+if "openai_model" not in st.session_state:
+    st.session_state["openai_model"] = "gpt-3.5"
+
+if "messages" not in st.session_state:
+    st.session_state.messages = []
 
 def fetch_sections_from_db():
     conn = get_db_conn()
@@ -29,7 +37,7 @@ def fetch_articles_from_db(section_filter=None):
     conn = get_db_conn()
     cur = conn.cursor()
 
-    # 构建SQL查询
+    # Construct SQL query
     if section_filter:
         query = "SELECT * FROM news WHERE section = %s"
         cur.execute(query, (section_filter,))
@@ -41,24 +49,33 @@ def fetch_articles_from_db(section_filter=None):
     return articles
 
 def generate_abstract(paragraph):
-    # 调用 ChatGPT 生成摘要
-    response = client.chat.completions.create(
-        model="text-davinci-003",
-        messages=[{"role": "system", "content": "Summarize the following text with simple english and chinese:"}, {"role": "user", "content": paragraph}],
-        stream=False,
-    )
-    return response.choices[0].text.strip()
+    # Construct prompt
+    prompt = f"Summarize the following text with simple English and Chinese:\n{paragraph}\n\n"
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    
+    with st.chat_message("assistant"):
+        stream = client.chat.completions.create(
+            model=st.session_state["openai_model"],
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+            stream=True,
+        )
+        response = st.write_stream(stream)
+
+    st.session_state.messages.append({"role": "assistant", "content": response})
 
 def main():
     st.title('NYT Articles')
 
-    # 从数据库中获取所有部分名称
+    # Get all sections from the database
     all_sections = fetch_sections_from_db()
 
-    # 部分过滤器
+    # Section filter
     section_filter = st.selectbox('Select section to filter:', ['', *all_sections])
 
-    # 根据过滤部分获取文章
+    # Get articles based on section filter
     articles = fetch_articles_from_db(section_filter)
 
     if not articles:
@@ -75,10 +92,10 @@ def main():
             st.write(f"**URL:** [{article[1]}]({article[0]})")
             # st.write(f"**Paragraph:** {article[6]}")
 
-            # 生成摘要
+            # Generate abstract
             abstract = generate_abstract(article[6])
-            st.write(f"**Abstract:** {abstract}")
-            time.sleep(10)
+            # st.write(f"**Abstract:** {abstract}")
+            # time.sleep(10)
             st.write('---')
 
 if __name__ == "__main__":
