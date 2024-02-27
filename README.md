@@ -3,6 +3,8 @@
 ## Introduction
 My app is designed to fetch and display articles from the New York Times (NYT) API. It extracts relevant information from the articles such as title, URL, published date, author, and section, and stores this information in a JSON file named "links.json". Additionally, it extracts paragraphs from the articles and includes them in the stored information.
 
+check it out here!: https://axi-techin510-final.azurewebsites.net/
+
 ## Code Explanation
 The code consists of three parts:
 
