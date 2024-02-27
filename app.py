@@ -14,6 +14,8 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
     base_url=os.getenv("OPENAI_API_BASE"),
 )
+print(os.getenv("OPENAI_API_KEY"),
+    os.getenv("OPENAI_API_BASE"))
 
 def fetch_sections_from_db():
     conn = get_db_conn()
