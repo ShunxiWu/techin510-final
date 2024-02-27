@@ -42,7 +42,7 @@ def generate_abstract(paragraph):
     # 调用 ChatGPT 生成摘要
     response = client.chat.completions.create(
         model="text-davinci-003",
-        messages=[{"role": "system", "content": "Summarize the following text:"}, {"role": "user", "content": paragraph}],
+        messages=[{"role": "system", "content": "Summarize the following text with simple english and chinese:"}, {"role": "user", "content": paragraph}],
         stream=False,
     )
     return response.choices[0].text.strip()
