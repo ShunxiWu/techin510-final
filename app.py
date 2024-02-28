@@ -81,20 +81,20 @@ def main():
     else:
         st.write(f'Number of articles: {len(articles)}')
 
-        for idx, article in enumerate(articles):
-            st.markdown(f"**Title:** {article[1]}")
-            st.write(f"**Published Date:** {article[2]}")
-            st.write(f"**Byline:** {article[3]}")
-            st.write(f"**Section:** {article[4]}")
-            st.write(f"**Source:** {article[5]}")
-            st.write(f"**URL:** [{article[1]}]({article[0]})")
-            st.write(f"**Paragraph:** {article[6]}")
+    for idx, article in enumerate(articles):
+        st.markdown(f"**Title:** {article['title']}")
+        st.write(f"**Published Date:** {article['published_date']}")
+        st.write(f"**Byline:** {article['byline']}")
+        st.write(f"**Section:** {article['section']}")
+        st.write(f"**Source:** {article['source']}")
+        st.write(f"**URL:** [{article['title']}]({article['url']})")
+        st.write(f"**Paragraph:** {article['paragraph']}")
+        st.write(f"**Abstract:** ")
+        if st.button(f'Generate Abstract {idx}'):
+            abstract = generate_abstract(article['paragraph'])
+            st.write(f"**Abstract:** {abstract}")
+            st.write('---')
 
-            # Generate abstract
-            if st.button(f'Generate Abstract {idx}'):
-                abstract = generate_abstract(article[6])
-                st.write(f"**Abstract:** {abstract}")
-                st.write('---')
                 
 if __name__ == "__main__":
     main()
