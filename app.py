@@ -93,12 +93,10 @@ def main():
             st.write(f"**Paragraph:** {article[6]}")
 
             # Generate abstract
-            if st.button('Generate Abstract'):
-                # 调用生成摘要的函数
+            if st.button(f'Generate Abstract {idx}'):
                 abstract = generate_abstract(article[6])
-                # 显示摘要
                 st.write(f"**Abstract:** {abstract}")
                 st.write('---')
-
+                
 if __name__ == "__main__":
     main()
