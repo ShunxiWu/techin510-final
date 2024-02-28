@@ -90,12 +90,14 @@ def main():
             st.write(f"**Section:** {article[4]}")
             st.write(f"**Source:** {article[5]}")
             st.write(f"**URL:** [{article[1]}]({article[0]})")
-            # st.write(f"**Paragraph:** {article[6]}")
+            st.write(f"**Paragraph:** {article[6]}")
 
             # Generate abstract
+        if st.button('Generate Abstract'):
+            # 调用生成摘要的函数
             abstract = generate_abstract(article[6])
-            # st.write(f"**Abstract:** {abstract}")
-            time.sleep(10)
+            # 显示摘要
+            st.write(f"**Abstract:** {abstract}")
             st.write('---')
 
 if __name__ == "__main__":
