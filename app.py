@@ -10,8 +10,6 @@ import time
 # os.environ.clear()
 load_dotenv()
 
-
-
 # Initialize OpenAI client
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
@@ -83,7 +81,7 @@ def main():
     else:
         st.write(f'Number of articles: {len(articles)}')
 
-        for article in articles:
+        for idx, article in enumerate(articles):
             st.markdown(f"**Title:** {article[1]}")
             st.write(f"**Published Date:** {article[2]}")
             st.write(f"**Byline:** {article[3]}")
