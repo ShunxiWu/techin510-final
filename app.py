@@ -90,10 +90,9 @@ def main():
         st.write(f"**URL:** [{article['title']}]({article['url']})")
         st.write(f"**Paragraph:** {article['paragraph']}")
         st.write(f"**Abstract:** ")
-        if st.button(f'Generate Abstract {idx}'):
-            abstract = generate_abstract(article['paragraph'])
-            st.write(f"**Abstract:** {abstract}")
-            st.write('---')
+        abstract = generate_abstract(article['paragraph'])
+        st.write(f"**Abstract:** {abstract}")
+        st.write('---')
 
                 
 if __name__ == "__main__":
