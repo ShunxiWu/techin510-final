@@ -22,6 +22,11 @@ def get_db_conn():
     port = os.getenv("DB_PORT")
     conn = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
     
+    cur = conn.cursor()
+    cur.execute('DROP TABLE IF EXISTS news;')
+    conn.commit()
+    cur.close()
+
     # 创建表
     cur = conn.cursor()
     cur.execute('''
@@ -32,7 +37,8 @@ def get_db_conn():
             byline TEXT,
             section TEXT,
             source TEXT,
-            paragraphs TEXT[]
+            paragraphs TEXT[],
+            image_url TEXT
         )
     ''')
     conn.commit()
@@ -65,6 +71,11 @@ def fetch_latest_articles(source, section):
             }
             paragraphs = extract_paragraphs(article_info['url'])
             article_info['paragraphs'] = paragraphs
+
+            # 提取图片URL
+            image_url = extract_image_url(article_info['url'])
+            article_info['image_url'] = image_url
+
             all_articles.append(article_info)  # 将文章信息添加到列表中
 
             # 将文章信息插入数据库
@@ -91,13 +102,24 @@ def extract_paragraphs(url):
         print("Failed to fetch URL:", url)
         return []
 
+def extract_image_url(url):
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        img_tags = soup.select("img.css-rq4mmj")
+        if img_tags:
+            return img_tags[0]['src']  # 获取第一个图片标签的 src 属性值
+    else:
+        print("Failed to fetch URL:", url)
+        return None
+
 def insert_article_to_db(cur, article_info):
     q = '''
-    INSERT INTO news (url, title, published_date, byline, section, source, paragraphs)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    INSERT INTO news (url, title, published_date, byline, section, source, paragraphs, image_url)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     ON CONFLICT (url) DO NOTHING;
     '''
-    cur.execute(q, (article_info['url'], article_info['title'], article_info['published_date'], article_info['byline'], article_info['section'], article_info['source'], article_info['paragraphs']))
+    cur.execute(q, (article_info['url'], article_info['title'], article_info['published_date'], article_info['byline'], article_info['section'], article_info['source'], article_info['paragraphs'], article_info['image_url']))
 
 def main():
     source = 'all'

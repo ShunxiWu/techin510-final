@@ -44,7 +44,13 @@ def fetch_articles_from_db(section_filter=None):
     
     articles = cur.fetchall()
     conn.close()
+    
+    # Convert each tuple to a dictionary for easier access
+    keys = ['url', 'title', 'published_date', 'byline', 'section', 'source', 'paragraph', 'image_url']
+    articles = [dict(zip(keys, article)) for article in articles]
+    
     return articles
+
 
 def generate_abstract(paragraph):
     # Construct prompt
@@ -82,18 +88,34 @@ def main():
         st.write(f'Number of articles: {len(articles)}')
 
     for idx, article in enumerate(articles):
-        st.markdown(f"**Title:** {article['title']}")
+                # Check if 'image_url' key exists
+
+        st.markdown(f"<h1>{article['title']}</h1>", unsafe_allow_html=True)
+        if 'image_url' in article:
+            # Try to display the image, catch exceptions if the format is not supported
+            try:
+                st.image(article['image_url'], caption='Article Image', use_column_width=True)
+            except Exception as e:
+                st.write(f"Failed to display image for article {idx+1}: {e}")
+        else:
+            st.write("Image not available.")  
         st.write(f"**Published Date:** {article['published_date']}")
         st.write(f"**Byline:** {article['byline']}")
         st.write(f"**Section:** {article['section']}")
         st.write(f"**Source:** {article['source']}")
         st.write(f"**URL:** [{article['title']}]({article['url']})")
-        st.write(f"**Paragraph:** {article['paragraph']}")
-        st.write(f"**Abstract:** ")
-        abstract = generate_abstract(article['paragraph'])
-        st.write(f"**Abstract:** {abstract}")
+
+        # Check if 'paragraph' key exists
+        if 'paragraph' in article:
+            # st.write(f"**Paragraph:** {article['paragraph']}")
+            button_label = f"Generate Abstract {idx}"  # Unique identifier
+            if st.button(button_label):
+                abstract = generate_abstract(article['paragraph'])
+                st.write(f"**Abstract:** {abstract}")
+        else:
+            st.write("Paragraph data not available.")
+
         st.write('---')
 
-                
 if __name__ == "__main__":
     main()
