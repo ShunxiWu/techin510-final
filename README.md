@@ -1,4 +1,3 @@
-# NYTArticles README
 
 # NYTArticles: Your Gateway to the Latest News from the New York Times!
 
