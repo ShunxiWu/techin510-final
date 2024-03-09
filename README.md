@@ -3,6 +3,9 @@
 
 Welcome to NYTArticles – your ultimate destination for accessing the freshest content from the prestigious New York Times (NYT) with ease and convenience. NYTArticles is meticulously crafted to bring you the most relevant and captivating articles directly from the NYT API, empowering you to stay informed effortlessly.
 
+Experience the convenience and efficiency of NYTArticles today: [Check it out now!](https://axi-techin510-final.azurewebsites.net/)
+Demo Video： https://youtu.be/i2EXHzfIQPQ
+
 ## Introduction
 NYTArticles is your go-to solution for effortlessly fetching and displaying articles from the New York Times API. Whether you're a news enthusiast, a researcher, or simply curious about current affairs, NYTArticles has got you covered. With its intuitive interface and powerful features, you can explore a wealth of information at your fingertips.
 
@@ -16,7 +19,7 @@ NYTArticles is your go-to solution for effortlessly fetching and displaying arti
 ## Unlock the Power of Knowledge
 With NYTArticles, staying updated with the latest news has never been easier. Dive into a world of insightful articles, thought-provoking analyses, and captivating stories – all at your fingertips.
 
-Experience the convenience and efficiency of NYTArticles today: [Check it out now!](https://axi-techin510-final.azurewebsites.net/)
+
 
 
 
