@@ -51,9 +51,8 @@ Install the required Python dependencies by running: pip install -r requirements
 
 ### Step 3: Run Part 1 - Data Fetching
 Run the `data.py` script to fetch the latest articles from the New York Times API and store them in the database. This script fetches data from the NYT API, extracts relevant information, and stores it in the PostgreSQL database.
-```bash
 python data.py
-```bash
+
 
 ### Step 4: Run Part 2 - Streamlit Web Application
 Run the app.py script to launch the Streamlit web application, which displays the fetched articles from the database. This script creates a web interface using Streamlit to interactively view the articles.
